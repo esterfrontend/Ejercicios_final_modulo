@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <h1>Pokemon</h1>
+    
+    <div class="pokemon__searcher">
+        <form id="pokemonForm">
+            <h2>Busca tu Pokemon favorito</h2>
+            <div class="form__content">
+                <input id="pokemonId" type="text" placeholder="Escribe un número" autofocus="autofocus">
+                <button id="searchButton" class="btn btn--primary" type="submit">¡Encuéntralo!</button>
+            </div>
+        </form>
+
+        <div>
+            <h2>Elige uno al azar</h2>
+            <button id="randomButton" class="btn btn--primary" type="submit">¡Vamos!</button>
+        </div>
+    </div>
+
+    <div id="pokemonCharacteristics" class="hidden"> 
+        <h2 id="pokemonName"></h2>
+        <img id="pokemonImage" src="" alt="Imagen del Pokemon">
+
+        <canvas id="statisticsChart"></canvas>
+    </div>
+    <p id="pokemonError" class="hidden"></p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="src/index.js"></script>
+    
+</body>
+</html>
