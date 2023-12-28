@@ -1,5 +1,3 @@
-const alcohols = ['Gin', 'Vodka', 'Tequila', 'Rum', 'Whiskey']
-
 const cocktails = [
   {
     idDrink: '14029',

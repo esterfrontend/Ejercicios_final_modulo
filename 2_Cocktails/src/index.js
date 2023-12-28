@@ -1,4 +1,4 @@
-// Gráfica lineal por años
+// Lineal graph per year
 const cocktailsByYearChart = () => {
     const cocktailsByYearChart = document.querySelector('#cocktailsByYearChart');
   
@@ -26,7 +26,7 @@ const cocktailsByYearChart = () => {
         labels: cocktailYears,
         datasets: [
           {
-            label: 'Número de cocktails por año',
+            label: 'Number of cocktails per year',
             data: cocktailNumByYear,
           },
         ],
@@ -37,38 +37,44 @@ const cocktailsByYearChart = () => {
 cocktailsByYearChart()
 
 
-// Gráfica pie por alcoholes
+// Pie graph per type of alcohol
 const cocktailsByAlcohol = () => {
     const cocktailsByAlcohol = document.querySelector('#cocktailsByAlcohol');
 
-    const alcoholsRepetitions = {}
+    const alcoholsRepetitions = []
     
     for (alcohol of alcohols) {
-        alcoholsRepetitions[alcohol] = 0
+        alcoholsRepetitions.push({
+            name : alcohol,
+            value : 0
+        })
     }
 
     // Set object alcoholRepeated
     for (cocktail of cocktails) {
-        if(cocktail.strAlcoholic === 'Alcoholic') {
-            for(let i = 1; cocktail[`strIngredient${i}`] ; i++) {
-                const ingredient = cocktail[`strIngredient${i}`]
-
-                if(ingredient && alcoholsRepetitions[ingredient] !== undefined) {
-                    alcoholsRepetitions[ingredient]++
-                } 
+        const alcoholsInCocktails = checkWhatAlcohol(cocktail)
+        if(alcoholsInCocktails.length > 0) {
+            for (alcoholInCocktail of alcoholsInCocktails) {
+                for (alcohol of alcoholsRepetitions) {
+                    if(alcohol.name === alcoholInCocktail) {
+                        alcohol.value++
+                    }
+                }
             }
         }
     }
 
-    console.log(alcoholsRepetitions)
-    const alcoholsRepeatedNumber = Object.values(alcoholsRepetitions)
-
+    const alcoholsRepeatedOrdered = alcoholsRepetitions.toSorted((a, b) => {  
+        return b.value - a.value
+    });
+    
+    
     new Chart(cocktailsByAlcohol, {
         type: 'pie',
         data: {
             labels: alcohols,
             datasets: [{
-                data: alcoholsRepeatedNumber,
+                data: alcoholsRepeatedOrdered,
                 backgroundColor: [
                     '#00a99d',
                     '#2aabe2',
