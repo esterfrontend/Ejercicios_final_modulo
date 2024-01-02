@@ -1,0 +1,15 @@
+h1 {
+    text-align: center;
+}
+
+.teams {
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;
+}
+
+.team {
+    width: 50%;
+    background-color: #f1f1f1;
+    padding: 40px;
+}
