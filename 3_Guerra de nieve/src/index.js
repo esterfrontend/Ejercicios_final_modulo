@@ -8,11 +8,10 @@ class Player {
     throwSnowball(playerVictim) {
         playerVictim.lifes -= this.damage
         
-        console.log(this.name + ' ataca a ' + playerVictim.name + ' con daño ' + this.damage)
         if(playerVictim.lifes <= 0) {
-            console.log(playerVictim.name + ' ha muerto')
+            console.log(this.name + ' MATA a ' + playerVictim.name)
         } else {
-            console.log(playerVictim.name + ' tiene ' + playerVictim.lifes + ' vidas')
+            console.log(this.name + ' ataca a ' + playerVictim.name)
         }
     }
 }
@@ -68,35 +67,49 @@ class War {
         let playerAttacker = ""
         let teamVictim = ""
         let playerVictim = ""
-        let teamHasLost = "false"
 
         let i = -teams.length;
 
-        do {
-            
+        const playWar = () => {
+
+            // Takes negative index to add 1 (to select victim team) and never get an index number over the array length
             if(i === 0 ) i = -teams.length
 
-            // Selecciona el equipo en esa posición de array
+            // Select attacker team
             teamAttacker = eval(teams.at(i))
-            // Elige a un jugador de ese eqquipo
+            // Select random player from attacker team
             playerAttacker = this.generateRandomPlayer(teamAttacker)
-            // console.log('Ataca: ', playerAttacker.name, playerAttacker.lifes)
-            // Elige a un jugador del otro equipo
+            
+            // Select player from attacker team
             teamVictim = eval(teams.at(i + 1))
+            // Select random player from attacker team
             playerVictim = this.generateRandomPlayer(teamVictim)
-            // console.log('Víctima: ', playerVictim.name, playerVictim.lifes)
-            // Dispara
+            // Throw snowball
             playerAttacker.throwSnowball(playerVictim)
 
-            teamHasLost = teamVictim.hasLost()
-
             i++
+                
 
-        } while (!teamHasLost)
+            // Create random interval
+            const 
+                min = 1,
+                max = 3;
+            const randomInterval = Math.floor(Math.random() * (max - min + 1) + min);
+            
+            
+            // Set interval
+            const intervalWar = setTimeout(playWar, randomInterval * 1000);
 
-        if(teamHasLost) {
-            console.log(teamAttacker.name + ' ganan')
+        
+            // Stop the interval and show the winner
+            if(teamVictim.hasLost()) {
+                console.log(teamAttacker.name + ' ganan')
+                clearInterval(intervalWar)
+            }
+            
         }
+          
+        playWar()
     }
 
     generateRandomPlayer(team) {
