@@ -5,8 +5,15 @@ class Player {
         this.damage = damage
     }
 
-    throwSnowball() {
-        // Lanza bola de nieve
+    throwSnowball(playerVictim) {
+        playerVictim.lifes -= this.damage
+        
+        console.log(this.name + ' ataca a ' + playerVictim.name + ' con daño ' + this.damage)
+        if(playerVictim.lifes <= 0) {
+            console.log(playerVictim.name + ' ha muerto')
+        } else {
+            console.log(playerVictim.name + ' tiene ' + playerVictim.lifes + ' vidas')
+        }
     }
 }
 
@@ -33,13 +40,12 @@ class Team {
     }
 
     addPlayer(player) {
-        // Método para agregar jugadores
         this.players.push(player)
     }
 
     hasLost() {
         return this.players.every((player) => {
-            if(player.lifes === 0) {
+            if(player.lifes <= 0) {
                 return true
             } else {
                 return false
@@ -55,63 +61,57 @@ class War {
         this.team2 = team2
     }
 
-    simulate(team1, team2) {
-        do {
-            this.turn(team1, team2)
-            
-            if(!team2.hasLost()) {
-                this.turn(team2, team1)
-            }
-        } while (!team2.hasLost() && !team1.hasLost())
+    simulate() {
+        const teams = Object.keys(war)
 
-        if(team1.hasLost()) {
-            console.log(team1.name + ' pierden')
-        }
-        if(team2.hasLost()) {
-            console.log(team1.name + ' pierden')
-        }
-    }
-    
-    turn(team1, team2) {
-        let playerAttacker = this.choseAttack(team1)
-        let playerVictim = this.choseVictim(team2)
-        playerVictim.lifes = playerVictim.lifes - playerAttacker.damage
-        
-        console.log(playerAttacker.name + ' ataca a ' + playerVictim.name + ' con daño ' + playerAttacker.damage)
-        if(playerVictim.lifes <= 0) {
-            console.log(playerVictim.name + ' ha muerto')
-        } else {
-            console.log(playerVictim.name + ' tiene ' + playerVictim.lifes + ' vidas')
-        }
-    }
-
-    choseAttack(team) {
+        let teamAttacker = ""
         let playerAttacker = ""
-        do {
-            playerAttacker = this.generateRandomPlayer(team)
-        } while(playerAttacker.lifes === 0)
-
-        return playerAttacker
-    }
-
-    choseVictim(team) {
+        let teamVictim = ""
         let playerVictim = ""
-        do {
-            playerVictim = this.generateRandomPlayer(team)
-        } while(playerVictim.lifes === 0)
+        let teamHasLost = "false"
 
-        return playerVictim
+        let i = -teams.length;
+
+        do {
+            
+            if(i === 0 ) i = -teams.length
+
+            // Selecciona el equipo en esa posición de array
+            teamAttacker = eval(teams.at(i))
+            // Elige a un jugador de ese eqquipo
+            playerAttacker = this.generateRandomPlayer(teamAttacker)
+            // console.log('Ataca: ', playerAttacker.name, playerAttacker.lifes)
+            // Elige a un jugador del otro equipo
+            teamVictim = eval(teams.at(i + 1))
+            playerVictim = this.generateRandomPlayer(teamVictim)
+            // console.log('Víctima: ', playerVictim.name, playerVictim.lifes)
+            // Dispara
+            playerAttacker.throwSnowball(playerVictim)
+
+            teamHasLost = teamVictim.hasLost()
+
+            i++
+
+        } while (!teamHasLost)
+
+        if(teamHasLost) {
+            console.log(teamAttacker.name + ' ganan')
+        }
     }
 
     generateRandomPlayer(team) {
-        return team.players[Math.floor(Math.random() * team.players.length)]
+        let player = ''
+        do {
+            player = team.players[Math.floor(Math.random() * team.players.length)]
+        } while(player.lifes <= 0)
+
+        return player
     }
 }
 
 
 const team1 = new Team('Los buenos')
 const team2 = new Team('Los malos')
-const teams = [team1, team2]
 
 team1.addPlayer(new Warrior("Jon Nieve"));
 team1.addPlayer(new Magician("Harry Potter"));
@@ -121,7 +121,4 @@ team2.addPlayer(new Magician("Voldemort"));
 
 const war = new War(team1, team2);
 
-war.simulate(team1, team2)
-
-
-
+war.simulate()
