@@ -1,0 +1,107 @@
+body {
+    font-family: Geneva, sans-serif; 
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+}
+
+main {
+    display: flex;
+    gap: 30px;
+}
+
+form {
+    width: 30%;
+    background-color: #f3f3f3;
+    padding: 10px 30px;
+}
+
+label {
+    display: block;
+    font-size: 0.9rem;
+}
+
+input[type="text"] {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    padding: 8px 12px;
+    margin-top: 4px;
+    margin-bottom: 20px;
+}
+
+input[type="submit"] {
+    color: white;
+    background-color: #3a8abf;
+    border: 0;
+    border-radius: 4px;
+    padding: 12px 14px;
+}
+
+input[type="submit"][disabled] {
+    opacity: 0.5;
+    cursor: no-drop;
+}
+
+.list {
+    width: 70%;
+}
+
+.list ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.task {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0px;
+    margin-bottom: 10px;
+    display: flex;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.task button {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    background-color: white;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    margin-top: 1px;
+    margin-right: 10px;
+}
+
+.task button:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 4px;
+    height: 7px;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+    transform: rotate(40deg) translate(-1px, -2px);
+}
+
+.task button:hover {
+    background-color: white;
+    border-color: #777;
+}
+
+.task button:hover:after {
+    border-color: #444;
+}
+
+.task h3 {
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin: 0 5px;
+}
+
+.task p {
+    font-size: 0.8rem;
+    margin: 0 5px;
+}
