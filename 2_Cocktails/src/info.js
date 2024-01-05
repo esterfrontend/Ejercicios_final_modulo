@@ -1,4 +1,4 @@
-// Last 20 cocktails
+// Show last 20 cocktails
 const dates = cocktails.map(({dateModified}) => dateModified)
 
 
@@ -92,8 +92,3 @@ cocktailItems.forEach(element => {
     })
     
 });
-
-
-
-
-// checkWhatAlcohol(cocktails[0])
