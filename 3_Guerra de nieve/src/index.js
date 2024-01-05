@@ -61,8 +61,6 @@ class War {
     }
 
     simulate() {
-        const teams = Object.keys(war)
-
         let teamAttacker = ""
         let playerAttacker = ""
         let teamVictim = ""
@@ -106,6 +104,20 @@ class War {
                 console.log(teamAttacker.name + ' ganan')
                 clearInterval(intervalWar)
             }
+
+            // Update player lifes for chart
+            const victimIndex = players.indexOf(playerVictim.name)
+            if(playerVictim.lifes < 0) {
+                playerVictim.lifes = 0
+            }
+            playersLifes[victimIndex] = playerVictim.lifes
+            
+            
+            // Reload chart
+            if (playersLifesChart) {
+                playersLifesChart.destroy();
+                showChart()
+            }
             
         }
           
@@ -133,5 +145,44 @@ team2.addPlayer(new Warrior("Lannister"));
 team2.addPlayer(new Magician("Voldemort"));
 
 const war = new War(team1, team2);
+const teams = Object.keys(war)
 
-war.simulate()
+// Create players name array for chart
+const players = []
+const playersLifes = []
+teams.forEach(team => {
+    for (player of eval(team).players) {
+        players.push(player.name)
+        playersLifes.push(player.lifes)
+    }
+})
+
+// Graph initialization
+let playersLifesChart;
+const chart = document.querySelector('#chart')
+
+
+const showChart = () => {
+    playersLifesChart = new Chart(chart, {
+        type: 'bar',
+        data: {
+            labels: players,
+            datasets: [{
+                label: `Vidas de los jugadores`,
+                data: playersLifes,
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    suggestedMin: 0,
+                    suggestedMax: 3
+                }
+            }
+        }
+    });
+}
+
+showChart()
+
+const simulateWar = setTimeout(war.simulate(), 1000);
